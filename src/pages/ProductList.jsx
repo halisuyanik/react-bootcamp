@@ -1,17 +1,33 @@
 import React, {useEffect, useState} from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Icon, Menu, Table } from "semantic-ui-react";
-
+import { Button, Icon, Menu, Table } from "semantic-ui-react";
+import { addToCart } from "../redux/store/actions/cartActions";
+import { toast } from 'react-toastify';
 import ProductService from '../services/productService'
 
 export default function ProductList() {
   const [products, setProducts]=useState([]);
-
+  const dispatch=useDispatch();
   useEffect(()=>{
     let productService=new ProductService();
     productService.getProducts().then(result=>setProducts(result.data.data))
 
   },[])
+
+  function handleAddToCart(product){
+    dispatch(addToCart(product));
+    toast.success(`${product.productName} sepete ekelendi`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
+  }
 
   return (
     <div>
@@ -34,6 +50,14 @@ export default function ProductList() {
               <Table.Cell>{product.unitsInStock}</Table.Cell>
               <Table.Cell>{product.quantityPerUnit}</Table.Cell>
               <Table.Cell>{product.category.categoryName}</Table.Cell>
+              <Table.Cell>
+                <Button onClick={()=>handleAddToCart(product)} animated='vertical'>
+                  <Button.Content hidden>Shop</Button.Content>
+                  <Button.Content visible>
+                    <Icon name='shop' />
+                  </Button.Content>
+                </Button>
+              </Table.Cell>
             </Table.Row>
           ))}
           
