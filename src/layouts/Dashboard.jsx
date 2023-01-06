@@ -7,7 +7,6 @@ import ProductDetail from "../pages/ProductDetail";
 import CartDetail from "../pages/CartDetail";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ProductAdd from "../pages/ProductAdd";
 export default function Dashboard() {
   return (
     <div>
