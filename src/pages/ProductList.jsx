@@ -46,10 +46,10 @@ export default function ProductList() {
           {products && products?.map((product)=>(
               <Table.Row key={product.id}>
               <Link to={`/product/${product.productName}`}><Table.Cell>{product.productName}</Table.Cell></Link>
-              <Table.Cell>{product.unitPrice}</Table.Cell>
-              <Table.Cell>{product.unitsInStock}</Table.Cell>
-              <Table.Cell>{product.quantityPerUnit}</Table.Cell>
-              <Table.Cell>{product.category.categoryName}</Table.Cell>
+              <Table.Cell>{product?.unitPrice}</Table.Cell>
+              <Table.Cell>{product?.unitsInStock}</Table.Cell>
+              <Table.Cell>{product?.quantityPerUnit}</Table.Cell>
+              <Table.Cell>{product?.category?.categoryName}</Table.Cell>
               <Table.Cell>
                 <Button onClick={()=>handleAddToCart(product)} animated='vertical'>
                   <Button.Content hidden>Shop</Button.Content>
