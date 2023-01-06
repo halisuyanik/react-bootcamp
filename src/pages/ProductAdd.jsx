@@ -1,7 +1,9 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik'
+import { Form, Formik } from 'formik'
 import React from 'react'
 import * as Yup from 'yup'
-import { Button, FormField, Label } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
+import DevTextInput from '../utilities/customFormControls/DevTextInput'
+import ProductService from '../services/productService'
 export default function ProductAdd() {
     const initialValues={productName:"", unitPrice:""}
 
@@ -9,23 +11,17 @@ export default function ProductAdd() {
         productName:Yup.string().required("Product name required"),
         unitPrice:Yup.number().required("Product price required"),
     })
-
-    const handleProductAdd=async(e)=>{
-        e.preventDefault();
-    }
+    let productService=new ProductService();
+    // const handleProductAdd=async(e)=>{
+    //     e.preventDefault();
+    // }
 
     return (
         <div>
-            <Formik initialValues={initialValues} validationSchema={schema} onSubmit={()=>{handleProductAdd()}}>
+            <Formik initialValues={initialValues} validationSchema={schema} onSubmit={async (values)=>{productService.postProductAdd(values.productName, values.unitPrice)}}>
                 <Form className='ui form'>
-                    <FormField>
-                        <Field name="productName" placeholder="Product Name"></Field>
-                        <ErrorMessage name="productName" render={error=><Label pointing basic color='red' content={error}></Label>}></ErrorMessage>
-                    </FormField>
-                    <FormField>
-                        <Field name="unitPrice" placeholder="Unit Price"></Field>
-                        <ErrorMessage name="unitPrice" render={error=><Label pointing basic color='red' content={error}></Label>}></ErrorMessage>
-                    </FormField>
+                    <DevTextInput id="productName" name="productName" placeholder="Product name"></DevTextInput>
+                    <DevTextInput id="unitPrice" name="unitPrice" placeholder="Unit Price"></DevTextInput>
                     <Button color='green' type='submit'>Submit</Button>
                 </Form>
             </Formik>
